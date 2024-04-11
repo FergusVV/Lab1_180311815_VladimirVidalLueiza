@@ -1,0 +1,6 @@
+#lang racket
+
+(define (make-station id name type stop-time)
+  (if (and (integer? id) (string? name) (member type '(r m c t)) (integer? stop-time) (> stop-time 0))
+      (list id name type stop-time)
+      (error "Invalid station parameters")))
