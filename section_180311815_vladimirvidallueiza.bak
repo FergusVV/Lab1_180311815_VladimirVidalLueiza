@@ -1,0 +1,13 @@
+#lang racket
+
+(require "station_180311815_vladimirvidallueiza.rkt")
+
+(define (section point1 point2 distance cost)
+  (if (and (list? point1) (list? point2) (number? distance) (> distance 0) (number? cost) (>= cost 0))
+      (list point1 point2 distance cost)
+      (error "Invalid section parameters")))
+
+(define (section-point1 section) (car section))
+(define (section-point2 section) (cadr section))
+(define (section-distance section) (caddr section))
+(define (section-cost section) (cadddr section))

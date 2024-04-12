@@ -1,0 +1,12 @@
+#lang racket
+
+(require "section_180311815_vladimirvidallueiza.rkt")
+
+(define line
+  (lambda (id name rail-type . sections)
+    (if (and (integer? id)
+             (string? name)
+             (string? rail-type)
+             (every is-section? sections))  ; Verifica que cada elemento en sections sea una section válida
+        (list id name rail-type (list sections))
+        (error "Invalid line parameters"))))
