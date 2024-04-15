@@ -12,28 +12,55 @@
         (list id name rail-type sections)  ; Envuelve 'sections' en una lista para mantener una estructura consistente.
         (raise "Invalid line parameters"))))
 
-(define (is-line? line)
+(define (es-line? line)
   (and (list? line)
-       (integer? (line-id line))
-       (string? (line-name line))
-       (string? (line-rail-type line))
-       (list? (line-sections line))  ; Asegura que las secciones son una lista.
-       (andmap is-section? (line-sections line)))) 
+       (integer? (get-line-id line))
+       (string? (get-line-name line))
+       (string? (get-line-rail-type line))
+       (list? (get-line-sections line))  ; Asegura que las secciones son una lista.
+       (andmap is-section? (get-line-sections line)))) 
 
-(define line-id
+(define get-line-id
   (lambda (line)
     (first line)))
 
-(define line-name
+(define get-line-name
   (lambda (line)
     (second line)))
 
-(define line-rail-type
+(define get-line-rail-type
   (lambda (line)
     (third line)))
 
-(define line-sections
+(define get-line-sections
   (lambda (line)
     (if (>= (length line) 4)
         (fourth line)
-        '()))) 
+        '())))
+
+;otras funciones
+
+(define (line-is-circular? line)
+  (and (not (null? (get-line-sections line)))
+       (equal? (get-station-id (get-section-point1 (first (get-line-sections line))))
+               (get-station-id (get-section-point2 (last (get-line-sections line)))))))
+
+
+(define (regular-line-length line)
+  (apply + (map get-section-distance (get-line-sections line))))
+
+(define (circular-line-length line)
+  (apply + (map get-section-distance (get-line-sections line))))
+
+
+(define (line-length line)
+  (if (line-is-circular? line)
+      (circular-line-length line)
+      (regular-line-length line)))
+
+
+
+
+
+
+

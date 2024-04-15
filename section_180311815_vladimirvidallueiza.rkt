@@ -13,7 +13,8 @@
 (define section
   (lambda (point1 point2 distance cost)
     (if (and (es-station? point1) 
-             (es-station? point2) 
+             (es-station? point2)
+             (not (equal? (get-station-id point1) (get-station-id point2)))
              (number? distance) 
              (> distance 0) 
              (number? cost) 
