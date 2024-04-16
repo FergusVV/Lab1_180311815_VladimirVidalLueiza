@@ -38,8 +38,9 @@
         (fourth line)
         '())))
 
-;otras funciones
-
+;;otras funciones
+;;line-length
+;;comprueba si una linea es circular
 (define (line-is-circular? line)
   (and (not (null? (get-line-sections line)))
        (equal? (get-station-id (get-section-point1 (first (get-line-sections line))))
@@ -80,7 +81,7 @@
        (calculate-distance (rest-of-list sections) acum))))
   (calculate-distance (get-line-sections line) #f))
 
-
+;line-cost
 (define (line-cost line)
   (define (calculate-total-cost sections)
     (if (null? sections)
@@ -89,7 +90,7 @@
            (calculate-total-cost (rest-of-list sections)))))  ; Recursivamente sumar el costo de las secciones restantes.
   (calculate-total-cost (get-line-sections line)))
 
-
+;;;line-section-cost
 (define (line-section-cost line start-station-name end-station-name)
   (define (calculate-cost sections accumulated-cost start-found)
     (if (null? sections)
@@ -107,6 +108,9 @@
            (calculate-cost (rest-of-list sections) accumulated-cost start-found)))))  ; No se acumula aún, sigue buscando.
   (calculate-cost (get-line-sections line) 0 #f))
 
+
+
+;;line-add-section
 (define crearline
   (lambda (id name rail-type sections)
     (if (and (integer? id)
@@ -134,3 +138,22 @@
             (get-line-rail-type line)
             (add-section (get-line-sections line) section))
       (error "Invalid section to add")))
+
+;;Comprobar si es linea
+(define (line? line)
+  (and (list? line)  ; Debe ser una lista.
+       (= (length line) 4)  ; Debe tener exactamente cuatro elementos.
+       (integer? (get-line-id line))  ; El ID debe ser un entero.
+       (string? (get-line-name line))  ; El nombre debe ser una cadena de caracteres.
+       (string? (get-line-rail-type line))  ; El tipo de riel debe ser una cadena de caracteres.
+       (list? (get-line-sections line))  ; Las secciones deben ser una lista.
+       (not (null? (get-line-sections line)))  ; Asegura que haya al menos una sección.
+       (all-sections-valid? (get-line-sections line))))  ; Todas las secciones deben ser válidas.
+
+(define (all-sections-valid? sections)
+  (if (null? sections)
+      #t  ; Una lista vacía de secciones es válida en este nivel.
+      (and (is-section? (car sections))  ; Verifica si la cabeza de la lista es una sección válida.
+           (all-sections-valid? (cdr sections)))))  ; Recursividad para verificar el resto.
+
+
