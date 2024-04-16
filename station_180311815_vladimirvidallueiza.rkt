@@ -10,6 +10,9 @@
 (provide m)
 (provide c)
 (provide t)
+(provide rest-of-list)
+
+(define rest-of-list cdr)
 
 (define r 'r)  ; Definición previa como un símbolo.
 (define m 'm)
