@@ -148,12 +148,26 @@
        (string? (get-line-rail-type line))  ; El tipo de riel debe ser una cadena de caracteres.
        (list? (get-line-sections line))  ; Las secciones deben ser una lista.
        (not (null? (get-line-sections line)))  ; Asegura que haya al menos una sección.
+       (or (line-is-circular? line)  ; La línea debe ser circular,
+           (any-station-is-type-t (get-line-sections line)))  ; o debe tener al menos una estación tipo 't'.
        (all-sections-valid? (get-line-sections line))))  ; Todas las secciones deben ser válidas.
+
+(define (any-station-is-type-t sections)
+  (define (station-type-t? station)
+    (equal? (get-station-type station) t))
+  (ormap (lambda (section)
+           (or (station-type-t? (get-section-point1 section))
+               (station-type-t? (get-section-point2 section))))
+         sections))
 
 (define (all-sections-valid? sections)
   (if (null? sections)
-      #t  ; Una lista vacía de secciones es válida en este nivel.
-      (and (is-section? (car sections))  ; Verifica si la cabeza de la lista es una sección válida.
-           (all-sections-valid? (cdr sections)))))  ; Recursividad para verificar el resto.
+      #t
+      (and (is-section? (first sections))
+           (all-sections-valid? (rest-of-list sections)))))
+
+
+
+
 
 

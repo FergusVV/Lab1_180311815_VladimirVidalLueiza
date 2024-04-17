@@ -1,0 +1,37 @@
+#lang racket
+
+(require "pcar_180311815_vladimirvidallueiza.rkt")
+
+(define (train id maker rail-type speed station-stay-time . pcars)
+  (if (and (integer? id)                            ; Verifica que el ID sea un entero.
+           (string? maker)                          ; Verifica que el fabricante sea una cadena de texto.
+           (string? rail-type)                      ; Verifica que el tipo de riel sea una cadena de texto.
+           (number? speed)                          ; Verifica que la velocidad sea un número.
+           (number? station-stay-time)              ; Verifica que el tiempo de estancia sea un número.
+           (positive? speed)                        ; Verifica que la velocidad sea positiva.
+           (>= station-stay-time 0)                 ; Verifica que el tiempo de estancia no sea negativo.
+           (not (null? pcars))                      ; Asegura que haya al menos un carro (para validez básica).
+           (consistent-model? pcars)                ; Verifica la consistencia del modelo entre todos los carros.
+           (valid-train-car-order? pcars))          ; Verifica el orden correcto de los carros.
+      (list id maker rail-type speed station-stay-time pcars)
+      (error "Invalid train configuration")))
+
+(define (consistent-model? pcars)
+  (let ((model (pcar-model (first pcars))))
+    (andmap (lambda (pcar) (equal? (pcar-model pcar) model)) pcars)))
+
+(define (pcar-model pcar)
+  (third pcar))  ; Asume que el modelo está en la tercera posición.
+; Define una función para verificar que todos los carros intermedios son de tipo central.
+(define (all-central-car-types? pcars)
+  (if (null? pcars)
+      #t
+      (and (equal? (pcar-type (car pcars)) 'ct)     ; Verifica que el carro sea central.
+           (all-central-car-types? (cdr pcars)))))
+
+; Define una función para verificar el orden correcto de los carros en el tren.
+(define (valid-train-car-order? pcars)
+  (and (not (null? pcars))                          ; Verifica que haya al menos un carro.
+       (equal? (pcar-type (first pcars)) 'tr)       ; El primer carro debe ser terminal.
+       (equal? (pcar-type (last pcars)) 'tr)        ; El último carro debe ser terminal.
+       (all-central-car-types? (cdr (reverse (cdr (reverse pcars)))))))  ; Carros intermedios deben ser centrales.
