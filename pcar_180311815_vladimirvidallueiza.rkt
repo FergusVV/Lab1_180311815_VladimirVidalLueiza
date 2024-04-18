@@ -6,6 +6,7 @@
 (provide pcar-model)
 (provide pcar-type)
 (provide rest-of-list)
+(provide pcar-id)
 (define rest-of-list cdr)
 
 (define tr 'tr)  ; Definicion previa como un simbolo
@@ -22,6 +23,8 @@
         (list id capacity model type)        ; Crea una lista con los detalles del carro.
         (error "Invalid pcar parameters")))) ; Lanza un error si algún parámetro no es válido.
 
+(define (pcar-id pcar)
+  (first pcar)) 
 
 (define (pcar-model pcar)
   (third pcar))  ; Asume que el modelo está en la tercera posición.
