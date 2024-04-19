@@ -1,14 +1,6 @@
 #lang racket
 
-(provide pcar)
-(provide tr)
-(provide ct)
-(provide pcar-model)
-(provide pcar-type)
-(provide rest-of-list)
-(provide pcar-id)
-(provide pcar-capacity)
-(define rest-of-list cdr)
+(provide (all-defined-out))
 
 (define tr 'tr)  ; Definicion previa como un simbolo
 (define ct 'ct)

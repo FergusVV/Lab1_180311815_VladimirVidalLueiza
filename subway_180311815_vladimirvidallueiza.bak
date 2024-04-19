@@ -1,0 +1,8 @@
+#lang racket
+
+
+(define (subway id name)
+  (if (and (integer? id)                 ; Verifica que el ID sea un entero.
+           (string? name))               ; Verifica que el nombre sea una cadena.
+      (list id name)                     ; Crea la estructura del metro si todos los tipos son correctos.
+      (raise "Invalid input types")))

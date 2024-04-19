@@ -1,5 +1,7 @@
 #lang racket
 
+(provide (all-defined-out))
+
 (require "pcar_180311815_vladimirvidallueiza.rkt")
 
 (define train
@@ -60,7 +62,7 @@
 (define (insert-pcar cars pcar position)
   (cond ((null? cars) (if (= position 0) (list pcar) (raise "Posición fuera de rango")))
         ((= position 0) (cons pcar cars))
-        (else (cons (first cars) (insert-pcar (rest-of-list cars) pcar (- position 1))))))
+        (else (cons (first cars) (insert-pcar (rest cars) pcar (- position 1))))))
 
 ; Función para añadir un carro a un tren en una posición dada.
 (define (train-add-car train pcar position)
@@ -136,7 +138,7 @@
 (define (sum-car-capacities pcars)
   (if (null? pcars)
       0  ; Si no hay más carros, la suma es 0.
-      (+ (pcar-capacity (car pcars))  ; Suma la capacidad del carro actual.
-         (sum-car-capacities (cdr pcars)))))  ; Recursividad con el resto de los carros.
+      (+ (pcar-capacity (first pcars))  ; Suma la capacidad del carro actual.
+         (sum-car-capacities (rest pcars)))))  ; Recursividad con el resto de los carros.
 
 
