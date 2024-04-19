@@ -109,9 +109,9 @@
        (number? (train-stay-time train))              ; Verifica que el tiempo de estancia sea un número.
        (not (null? (train-cars train)))               ; Verifica que haya al menos un carro.
        (unique-ids? (train-cars train) '())               ; Verifica que todos los IDs de carros sean únicos, se entrega como parametro una lista vacia
-       (valid-train-structure? (train-cars train))))  ; Verifica la estructura del tren según los requisitos.
+       (valid-structure? (train-cars train))))  ; Verifica la estructura del tren según los requisitos.
 
-(define (valid-train-structure? pcars)
+(define (valid-structure? pcars)
   (and (>= (length pcars) 2)  ; Debe tener al menos dos carros.
        (equal? (pcar-type (first pcars)) tr)  ; El primer carro debe ser terminal.
        (equal? (pcar-type (last pcars)) tr)   ; El último carro debe ser terminal.
@@ -128,4 +128,15 @@
         ((member (pcar-id (first pcars)) visto) #f)     ; Si el ID actual ya fue visto, retorna falso.
         (else (unique-ids? (rest pcars)               ; De lo contrario, sigue revisando.
                             (cons (pcar-id (first pcars)) visto)))))  ; Añade el ID actual a la lista de vistos.
+;;Función capacidad tren
+
+(define (train-capacity train)
+  (sum-car-capacities (train-cars train)))
+
+(define (sum-car-capacities pcars)
+  (if (null? pcars)
+      0  ; Si no hay más carros, la suma es 0.
+      (+ (pcar-capacity (car pcars))  ; Suma la capacidad del carro actual.
+         (sum-car-capacities (cdr pcars)))))  ; Recursividad con el resto de los carros.
+
 

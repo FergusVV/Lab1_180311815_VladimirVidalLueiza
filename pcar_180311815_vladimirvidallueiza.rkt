@@ -7,6 +7,7 @@
 (provide pcar-type)
 (provide rest-of-list)
 (provide pcar-id)
+(provide pcar-capacity)
 (define rest-of-list cdr)
 
 (define tr 'tr)  ; Definicion previa como un simbolo
@@ -24,7 +25,10 @@
         (error "Invalid pcar parameters")))) ; Lanza un error si algún parámetro no es válido.
 
 (define (pcar-id pcar)
-  (first pcar)) 
+  (first pcar))
+
+(define (pcar-capacity pcar)
+  (second pcar))
 
 (define (pcar-model pcar)
   (third pcar))  ; Asume que el modelo está en la tercera posición.
