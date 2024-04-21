@@ -2,6 +2,7 @@
 
 (require "pcar_180311815_vladimirvidallueiza.rkt")
 (require "train_180311815_vladimirvidallueiza.rkt")
+(require "driver_180311815_vladimirvidallueiza.rkt")
 
 (define (subway id name . optional-trains)
   (if (and (integer? id)                 ; Verifica que el ID sea un entero.
@@ -20,14 +21,14 @@
   (third subway))
 
 (define (subway-add-train sub . trains)
-  ;; Función recursiva interna para añadir trenes uno por uno
-  (define (add-trains current-subway remaining-trains)
+  ;; Función recursiva para añadir trenes uno por uno
+  (define (add-trains current-sub remaining-trains)
     (if (null? remaining-trains)  ; Si no hay más trenes para añadir, devolver el subway actual
-        current-subway
+        current-sub
         ;; Llamar recursivamente con el nuevo subway y el resto de trenes
-        (add-trains (subway (subway-id current-subway)
-                            (subway-name current-subway)
-                            (append (subway-trains current-subway) (list (first remaining-trains))))
+        (add-trains (subway (subway-id current-sub)
+                            (subway-name current-sub)
+                            (append (subway-trains current-sub) (list (first remaining-trains))))
                     (rest remaining-trains))))
   ;; Iniciar la recursividad con el subway original y la lista completa de trenes
   (add-trains sub trains))
