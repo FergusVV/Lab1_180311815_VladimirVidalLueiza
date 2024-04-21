@@ -11,7 +11,7 @@
 
 ;;Funcion de pertencia
 
-(define (is-driver? driver)
+(define (driver? driver)
   (and (list? driver)                                  ; Debe ser una lista.
        (= (length driver) 3)                           ; Debe tener exactamente tres elementos.
        (integer? (driver-id driver))                   ; El ID debe ser un entero.
