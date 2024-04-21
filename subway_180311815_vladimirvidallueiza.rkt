@@ -154,4 +154,38 @@
 
 
 
+;; 25 Función para asignar un tren a una línea en un subway.
+(define (subway-assign-train-to-line subway trainId lineId)
+  (list (subway-id subway)                 ; ID de subway
+        (subway-name subway)               ; Nombre de subway
+        (map (lambda (element)             ; Procesa cada elemento
+               (if (and (line? element) (= (get-line-id element) lineId))
+                   (append element (list (first (filter (lambda (train) (= (train-id train) trainId)) ;filtrado de trenes que coinciden con trainId
+                                                     (filter train? (subway-elements subway)))))); Filtrado inicial para obtener solo trenes
+                   element))
+             (subway-elements subway))))   ; Procesa todos los elementos de subway
+
+
+;;26 Función para asignar un conductor a un tren en un subway con detalles específicos de viaje
+(define (subway-assign-driver-to-train subway driverId trainId departureTime departureStation arrivalStation)
+  (let* ((elements (subway-elements subway))  ; Obtiene todos los elementos del subway
+         (driver (find-driver driverId elements))  ; Encuentra el conductor completo basado en driverId
+         (updated-elements (map                     ; Actualiza los elementos del subway
+           (lambda (element) 
+             (if (and (train? element) (= (train-id element) trainId))  ; Verifica si es el tren correcto
+                 (append element (list(list driver departureTime departureStation arrivalStation)))  ; Añade los detalles del conductor y el viaje
+                 element))  ; Retorna elementos no modificados
+           elements)))
+    (list (subway-id subway)  ; ID de subway
+          (subway-name subway)  ; Nombre de subway
+          updated-elements)))  ; Elementos actualizados con el conductor asignado al tren
+
+; Función para encontrar un conductor específico en una lista de elementos
+(define (find-driver driverId elements)
+  (cond ((null? elements) #f)  ; Si no hay elementos, retorna falso
+        ((and (driver? (car elements)) (= (driver-id (car elements)) driverId)) (car elements))  ; Si el conductor coincide, retorna el conductor
+        (else (find-driver driverId (cdr elements)))))  ; Sigue buscando en la lista
+
+
+
 
