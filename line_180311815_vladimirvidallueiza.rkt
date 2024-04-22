@@ -11,7 +11,7 @@
              (string? rail-type)
              (andmap is-section? sections))  ; Asegura que todos los elementos en 'sections' son secciones válidas.
         (list id name rail-type sections)  ; Envuelve 'sections' en una lista para mantener una estructura consistente.
-        (raise "Invalid line parameters"))))
+       (raise "Invalid line parameters"))))
 
 (define (es-line? line)
   (and (list? line)

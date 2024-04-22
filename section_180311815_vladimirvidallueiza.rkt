@@ -1,19 +1,14 @@
 #lang racket
 
-(provide section)
-(provide is-section?)
-(provide get-section-point1)
-(provide get-section-point2)
-(provide get-section-distance)
-(provide get-section-cost)
+(provide (all-defined-out))
 
 (require "station_180311815_vladimirvidallueiza.rkt")
 
 ; Constructor para Section
 (define section
   (lambda (point1 point2 distance cost)
-    (if (and (es-station? point1) 
-             (es-station? point2)
+    (if (and (station? point1) 
+             (station? point2)
              (not (equal? (get-station-id point1) (get-station-id point2)))
              (number? distance) 
              (> distance 0) 
@@ -26,8 +21,8 @@
 (define (is-section? section)
   (and (list? section)
        (= (length section) 4)
-       (es-station? (get-section-point1 section))
-       (es-station? (get-section-point2 section))
+       (station? (get-section-point1 section))
+       (station? (get-section-point2 section))
        (number? (get-section-distance section))
        (> (get-section-distance section) 0)
        (number? (get-section-cost section))

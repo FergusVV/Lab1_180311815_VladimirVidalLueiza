@@ -18,7 +18,7 @@
                  (and (consistent-model? pcars)       ; Verifica la consistencia del modelo entre todos los carros.
                       (valid-train-car-order? pcars)))) ; Verifica el orden correcto de los carros.
         (list id maker rail-type speed station-stay-time pcars)
-        (raise "Invalid train configuration"))))
+        '()))); se representa como nulo cuando no es válido
 
 
 
