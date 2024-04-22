@@ -160,7 +160,7 @@
         (subway-name subway)               ; Nombre de subway
         (map (lambda (element)             ; Procesa cada elemento
                (if (and (line? element) (= (get-line-id element) lineId))
-                   (append element (list (first (filter (lambda (train) (= (train-id train) trainId)) ;filtrado de trenes que coinciden con trainId
+                   (append element (list (first (filter (lambda (train) (= (get-train-id train) trainId)) ;filtrado de trenes que coinciden con trainId
                                                      (filter train? (subway-elements subway)))))); Filtrado inicial para obtener solo trenes
                    element))
              (subway-elements subway))))   ; Procesa todos los elementos de subway
@@ -172,7 +172,7 @@
          (driver (find-driver driverId elements))  ; Encuentra el conductor completo basado en driverId
          (updated-elements (map                     ; Actualiza los elementos del subway
            (lambda (element) 
-             (if (and (train? element) (= (train-id element) trainId))  ; Verifica si es el tren correcto
+             (if (and (train? element) (= (get-train-id element) trainId))  ; Verifica si es el tren correcto
                  (append element (list(list driver departureTime departureStation arrivalStation)))  ; Añade los detalles del conductor y el viaje
                  element))  ; Retorna elementos no modificados
            elements)))

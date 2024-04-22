@@ -1,15 +1,13 @@
 #lang racket
 (provide (all-defined-out))
+(require "station_180311815_vladimirvidallueiza.rkt")
+
 
 ;; Definición de símbolos para los tipos de carro.
 (define tr 'tr)  ; Terminal: Estaciones finales de una línea y que pueden operar como combinaciones con otras líneas o servicios.
 (define ct 'ct)  ; Central: Carros que operan en el centro del convoy.
 ; Renombrar las funciones selectoras de listas.
-(define first-of-list car) ; Obtiene el primer elemento de una lista.
-(define second-of-list second) ; Obtiene el segundo elemento de una lista.
-(define third-of-list third) ; Obtiene el tercer elemento de una lista.
-(define fourth-of-list fourth) ; Obtiene el cuarto elemento de una lista.
-(define rest-of-list cdr) ; Elimina el primer elemento y devuelve el resto de la lista.
+
 
 ; TDA Pcar.
 ; Representada por una lista con

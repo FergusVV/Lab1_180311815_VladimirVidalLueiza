@@ -7,6 +7,9 @@
 (define second-of-list second) ; Obtiene el segundo elemento de una lista.
 (define third-of-list third) ; Obtiene el tercer elemento de una lista.
 (define fourth-of-list fourth) ; Obtiene el cuarto elemento de una lista.
+(define fifth-of-list fifth) ; Obtiene el quinto elemento de una lista.
+(define sixth-of-list sixth) ; Obtiene el sexto elemento de una lista.
+(define last-of-list last) ; Obtiene el ultimo elemento de una lista.
 (define rest-of-list cdr) ; Elimina el primer elemento y devuelve el resto de la lista.
 
 ; Definición previa como un símbolo para el manejo de los tipos de estación.
