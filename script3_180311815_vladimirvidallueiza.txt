@@ -1,0 +1,181 @@
+; Estaciones Línea 5 del Metro de Santiago
+(define e0 (station 0 "Plaza de Maipú" t 90))
+(define e1 (station 1 "Santiago Bueras" r 60))
+(define e2 (station 2 "Del Sol" c 70))
+(define e3 (station 3 "Monte Tabor" r 85))
+(define e4 (station 4 "Las Parcelas" r 40))
+(define e5 (station 5 "Laguna Sur" r 65))
+(define e6 (station 6 "Barrancas" c 75))
+(define e7 (station 7 "Pajaritos" c 50))
+(define e8 (station 8 "San Pablo" r 55))
+(define e9 (station 9 "Lo Prado" r 45))
+(define e10 (station 10 "Blanqueado" c 35))
+(define e11 (station 11 "Gruta de Lourdes" r 95))
+(define e12 (station 12 "Quinta Normal" c 90))
+(define e13 (station 13 "Cumming" r 65))
+(define e14 (station 14 "Santa Ana" c 55))
+(define e15 (station 15 "Plaza de Armas" r 40))
+(define e16 (station 16 "Bellavista de La Florida" t 90))
+(define e17 (station 17 "Cochera Pajaritos" m 4050))
+
+; Estaciones Línea 3 del Metro de Santiago
+(define e18 (station 18 "Los Libertadores" r 90))
+(define e19 (station 19 "Cardenal Caro" r 60))
+(define e20 (station 20 "Vivaceta" r 85))
+(define e21 (station 21 "Conchalí" r 50))
+(define e22 (station 22 "Plaza Chacabuco" r 65))
+(define e23 (station 23 "Hospitales" c 75))
+(define e24 (station 24 "Puente Cal y Canto" r 55))
+
+; Tramos Línea 5
+(define s0 (section e0 e1 4 15))
+(define s1 (section e1 e2 3 14))
+(define s2 (section e2 e3 2 11))
+(define s3 (section e3 e4 1 14))
+(define s4 (section e4 e5 1 18))
+(define s5 (section e5 e6 1 17))
+(define s6 (section e6 e7 3 16))
+(define s7 (section e7 e8 2 11))
+(define s8 (section e8 e9 2 17))
+(define s9 (section e9 e10 1.2 18))
+(define s10 (section e10 e11 4.3 15))
+(define s11 (section e11 e12 3.8 14))
+(define s12 (section e12 e13 4.5 13))
+(define s13 (section e13 e14 4.7 12))
+(define s14 (section e14 e15 4.3 10))
+(define s15 (section e15 e16 4.2 11))
+; Enlace cochera
+(define s16 (section e1 e17 3.8 12))
+
+; Tramos Línea 3, línea circular
+(define s17 (section e18 e19 4 15))
+(define s18 (section e19 e20 3 12))
+(define s19 (section e20 e21 5 18))
+(define s20 (section e21 e22 4.5 16))
+(define s21 (section e22 e10 4.2 16))
+(define s22 (section e10 e23 4.2 16))
+(define s23 (section e23 e24 4.2 16))
+(define s24 (section e24 e18 2.8 90))
+
+; Creación de Línea 5 con todos los tramos
+(define l5 (line 5 "Línea 5" "UIC 60 ASCE" s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15))
+; Creación de Línea 3 sin incluir tramos
+(define l3 (line 3 "Línea 3" "100 R.E."))
+
+(line-length l5) ; resultado debe ser 46.0
+(line-length l3) ; resultado debe ser 0
+(line-section-length l5 "Plaza de Maipú" "Lo Prado") ; respuesta 19
+
+(line-cost l5) ; resultado debe ser 226
+(line-cost l3) ; resultado debe ser 0
+(line-section-cost l5 "Plaza de Maipú" "Lo Prado") ; respuesta 133
+
+; añadiendo tramos a l3
+(define l3a (line-add-section l3 s17))
+(define l3b (line-add-section l3a s18))
+(define l3c (line-add-section l3b s19))
+(define l3d (line-add-section l3c s20))
+(define l3e (line-add-section l3d s21))
+(define l3f (line-add-section l3e s22))
+(define l3g (line-add-section l3f s23))
+(define l3h (line-add-section l3g s24))
+(define l3i (line-add-section l3h s19))  ; dependiendo de la implementación puede no añadir la estación duplicada
+
+(line? l5)  ; devuelve true
+(line? l3)  ; devuelve false  
+(line? l3e)  ; devuelve false     
+(line? l3h)  ; devuelve true
+
+;creando carros
+(define pc0 (pcar 0 115 "NXT-24" tr))
+(define pc1 (pcar 1 80 "NXT-24" ct))
+(define pc2 (pcar 2 125 "NXT-24" ct))
+(define pc3 (pcar 3 70 "NXT-24" ct))
+(define pc4 (pcar 4 90 "NXT-24" tr))
+(define pc5 (pcar 5 110 "QZ-2019" tr))
+(define pc6 (pcar 6 95 "QZ-2019" ct))
+(define pc7 (pcar 7 60 "QZ-2019" ct))
+(define pc8 (pcar 8 85 "QZ-2019" ct))
+(define pc9 (pcar 9 100 "QZ-2019" tr))
+(define pc10 (pcar 10 50 "QZ-2019" tr))
+(define pc11a (pcar 11 75 "QZ-2022" tr))
+(define pc11 (pcar 12 120 "QZ-2022" ct))
+(define pc12 (pcar 13 55 "QZ-2022" ct))
+(define pc13 (pcar 14 125 "QZ-2022" ct))
+(define pc14 (pcar 15 65 "QZ-2022" ct))
+(define pc15 (pcar 16 110 "QZ-2022" ct))
+(define pc16 (pcar 17 95 "QZ-2022" ct))
+(define pc17 (pcar 18 105 "QZ-2022" tr))
+
+
+;creando trenes
+(define t0 (train 0 "ZHIN" "UIC 60 ASCE" 55 1.5)) ;tren sin carros definidos
+(define t1 (train 1 "ZHIN" "UIC 60 ASCE" 65 3 pc0 pc1 pc2 pc3 pc4)) ;tren válido
+(define t2 (train 2 "ZHIN" "100 R.E." 65 4 pc5 pc6 pc7 pc8 pc9)) ;tren válido
+(define t3 (train 3 "ZHIN" "100 R.E." 65 4 pc11a pc11   pc12 pc13 pc14 pc15 pc16 pc17   )) ;tren válido  
+(define t4 (train 4 "ZHIN" "100 R.E." 65 4 pc1 pc2 pc3)) ;tren inválido sin terminales en extremos
+(define t5 (train 5 "ZHIN" "100 R.E." 65 4 pc0 pc5 pc9 pc12 pc17))  ;tren inválido por incompatibilidad de carros
+
+(define t0a (train-add-car t0 pc5 0))
+(define t0b (train-add-car t0a pc6 1))
+(define t0c (train-add-car t0b pc7 2))
+(define t0d (train-add-car t0c pc8 3))
+(define t0e (train-add-car t0d pc9 4)) ;tren válido
+
+(define t1a (train-remove-car t1 0))
+(define t1b (train-remove-car t1 2))
+
+;verificación de válidez en la conformación de trenes
+(train? t0) ;debe arrojar #f
+(train? t1) ;debe arrojar #t
+(train? t2) ;debe arrojar #t
+(train? t3) ;debe arrojar #t
+(train? t4) ;debe arrojar #f
+(train? t0a) ;debe arrojar #f  
+(train? t0b) ;debe arrojar #f
+(train? t0c) ;debe arrojar #f
+(train? t0d) ;debe arrojar #f
+(train? t0e) ;debe arrojar #t
+(train? t1a) ;debe arrojar #f
+(train? t1b) ;debe arrojar #t
+
+;determinar capacidad del tren
+(train-capacity t0) ;debe arrojar 0
+(train-capacity t1) ;debe arrojar 480
+
+; Creando conductores
+(define d0 (driver 0 "Juan" "ZHON"))
+(define d1 (driver 1 "Daniela" "ZHIN"))
+(define d2 (driver 2 "María" "ZHON"))
+(define d3 (driver 3 "Elena" "ZHIN"))
+
+; Creando Metros
+(define sw0 (subway 0 "Metro de Santiago"))
+(define sw1 (subway 1 "Metro Regional"))
+
+; Agregando trenes a Metros
+(define sw0a (subway-add-train sw0 t1 t2 t0e))
+
+; Agregando líneas a Metros
+(define sw0b (subway-add-line sw0a l5 l3h))
+
+; Agregando conductores a Metros
+(define sw0c (subway-add-driver sw0b d0 d1 d2 d3))
+
+; Representando Metro como string
+(subway->string sw0c)
+
+; Aumenta los costos de las estaciones en un 50%
+(define sw0d (subway-rise-section-cost sw0c (lambda (c) (* c 1.5))))
+
+; Cambiando el tiempo de parada de algunas estaciones
+(define sw0e (subway-set-station-stoptime sw0d "Plaza de Armas" 90))
+(define sw0f (subway-set-station-stoptime sw0e "Puente Cal y Canto" 35))
+
+; Asignando trenes a líneas
+(define sw0g (subway-assign-train-to-line sw0f 0 5))
+(define sw0h (subway-assign-train-to-line sw0g 1 3))
+
+; Asignando conductores a trenes
+(define sw0i (subway-assign-driver-to-train sw0h 0 0 "08:00:00" "Plaza de Maipú" "Bellavista de La Florida"))
+(define sw0j (subway-assign-driver-to-train sw0i 1 2 "10:00:00" "Los Libertadores" "Puente Cal y Canto"))

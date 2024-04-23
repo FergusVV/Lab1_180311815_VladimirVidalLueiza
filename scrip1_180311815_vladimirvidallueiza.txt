@@ -1,0 +1,191 @@
+;Estaciones L4 metro santiago
+
+(define e0 (station 0 "Tobalaba" t 90))
+(define e1 (station 1 "Cristóbal Colón" r 40))
+(define e2 (station 2 "Francisco Bilbao" c 50))
+(define e3 (station 3 "Príncipe de Gales" r 75))
+(define e4 (station 4 "Simón Bolívar" r 30))
+(define e5 (station 5 "Plaza Egaña" c 85))
+(define e6 (station 6 "Los Orientales" r 60))
+(define e7 (station 7 "Grecia" c 45))
+(define e8 (station 8 "Los Presidentes" r 35))
+(define e9 (station 9 "Quilín" r 55))
+(define e10 (station 10 "Las Torres" c 70))
+(define e11 (station 11 "Macul" r 65))
+(define e12 (station 12 "Vicuña Mackenna" c 55))
+(define e13 (station 13 "Vicente Valdés" r 90))
+(define e14 (station 14 "Rojas Magallanes" c 30))
+(define e15 (station 15 "Trinidad" r 80))
+(define e16 (station 16 "San José de la Estrella" c 35))
+(define e17 (station 17 "Los Quillayes" r 40))
+(define e18 (station 18 "Elisa Correa" c 90))
+(define e19 (station 19 "Hospital Sótero del Río" r 50))
+(define e20 (station 20 "Protectora de la Infancia" c 65))
+(define e21 (station 21 "Plaza de Puente Alto" t 45))
+(define e22 (station 22 "Cochera Plaza de Puente Alto" m 2600))
+
+;Estaciones L1 simplificada metro santiago, para una versión circular
+(define e23 (station 23 "Unión Latinoamericana" r 30))
+(define e24 (station 24 "República" r 40))
+(define e25 (station 25 "Los Héroes" r 60))
+(define e26 (station 26 "La Moneda" r 40))
+(define e27 (station 27 "Universidad de Chile" r 90))
+(define e28 (station 28 "Santa Lucía" c 40))
+(define e29 (station 29 "Universidad Católica" r 60))
+
+;Tramos Línea 4
+(define s0 (section e0 e1 2 14))
+(define s1 (section e1 e2 3.2 13))
+(define s2 (section e2 e3 3.1 12))
+(define s3 (section e3 e4 5.5 12))
+(define s4 (section e4 e5 2.7 11))
+(define s5 (section e5 e6 1.3 13))
+(define s6 (section e6 e7 7.8 12))
+(define s7 (section e7 e8 6.5 10))
+(define s8 (section e8 e9 2.5 19))
+(define s9 (section e9 e10 5.7 14))
+(define s10 (section e10 e11 2.3 19))
+(define s11 (section  e11 e12 5.8 11))
+(define s12 (section e12 e13 1.5 12))
+(define s13 (section e13 e14 9.1 13))
+(define s14 (section e14 e15 5.7 14))
+(define s15 (section e15 e16 1.6 15))
+(define s16 (section e16 e17 2.5 15))
+(define s17 (section e17 e18 3.4 11))
+(define s18 (section e18 e19 4.3 19))
+(define s19 (section e19 e20 6.2 11))
+(define s20 (section e20 e21 7.1 15))
+;enlace cochera
+(define s21 (section e21 e22 1.1 10))
+
+;Tramos Línea 1, línea circular
+(define s22 (section e23 e24 2 12))
+(define s23 (section e24 e25 4 11))
+(define s24 (section e25 e26 3 13))
+(define s25 (section e26 e27 5.5 15))
+(define s26 (section e28 e29 1.5 13))
+(define s27 (section e29 e23 2.7 19))
+
+;Creación de Línea 4 con todos los tramos
+(define l4 (line 4 "Línea 4" "UIC 60 ASCE" s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20))
+;Creación de Línea 2 sin incluir tramos
+(define l1 (line 1 "Línea 1" "100 R.E."))
+
+(line-length l4) ;resultado debe ser 89,8 si considera inclusive los tramos hacia estaciones de mantenimiento 
+(line-length l1) ;resultado debe ser 0
+(line-section-length l4 "Tobalaba" "Los Presidentes")   ;respuesta es 32,1
+
+(line-cost l4) ;resultado debe ser 285 si considera inclusive los tramos hacia estaciones de mantenimiento 
+(line-cost l1) ;resultado debe ser 0
+(line-section-cost l4 "Tobalaba" "Los Presidentes")     ;respuesta es 97
+
+;añadiendo tramos a l1
+(define l1a (line-add-section l1 s22))
+(define l1b (line-add-section l1a s23))
+(define l1c (line-add-section l1b s24))
+(define l1d (line-add-section l1c s25))
+(define l1e (line-add-section l1d s26))
+(define l1f (line-add-section l1e s27))
+(define l1g (line-add-section l1f s24)) 
+
+(line? l4)  ;devuelve true
+(line? l1)  ;devuelve false  
+ (line? l1e)  ;devuelve false     
+(line? l1g)  ;devuelve true
+
+;creando carros
+(define pc0 (pcar 0 90 "KL-55" tr))
+(define pc1 (pcar 1 110 "KL-55" ct))
+(define pc2 (pcar 2 110 "KL-55" ct))
+(define pc3 (pcar 3 90 "KL-55" ct))
+(define pc4 (pcar 4 120 "KL-55" tr))
+(define pc5 (pcar 5 120 "ZS-2022" tr))
+(define pc6 (pcar 6 140 "ZS-2022" ct))
+(define pc7 (pcar 7 140 "ZS-2022" ct))
+(define pc8 (pcar 8 140 "ZS-2022" ct))
+(define pc9 (pcar 9 150 "ZS-2022" tr))
+(define pc10 (pcar 10 100 "ZS-2022" tr))
+(define pc11a (pcar 11 100 "ZS-2023" tr))
+(define pc11 (pcar 12 100 "ZS-2023" ct))
+(define pc12 (pcar 13 100 "ZS-2023" ct))
+(define pc13 (pcar 14 150 "ZS-2023" ct))
+(define pc14 (pcar 15 100 "ZS-2023" ct))
+(define pc15 (pcar 16 100 "ZS-2023" ct))
+(define pc16 (pcar 17 100 "ZS-2023" ct))
+(define pc17 (pcar 18 100 "ZS-2023" tr))
+
+;creando trenes
+(define t0 (train 0 "BENZ" "UIC 60 ASCE" 80 2.7)) ;tren sin carros definidos
+(define t1 (train 1 "BENZ" "UIC 60 ASCE" 80  3 pc0 pc1 pc2 pc3 pc4)) ;tren válido
+(define t2 (train 2 "BENZ" "100 R.E." 65  3 pc5 pc6 pc7 pc8 pc9)) ;tren válido
+(define t3 (train 3 "BENZ" "100 R.E." 65  3 pc11a pc11   pc12 pc13 pc14 pc15 pc16 pc17)) ;tren válido  
+(define t4 (train 4 "BENZ" "100 R.E." 65  3 pc1 pc2 pc3)) ;tren inválido sin terminales en extremos
+(define t5 (train 5 "BENZ" "100 R.E." 75  3 pc0 pc5 pc9 pc12 pc17))  ;tren inválido por incompatibilidad de carros mostrar una lista vacia
+
+(define t0a (train-add-car t0 pc5 0))
+(define t0b (train-add-car t0a pc6 1))
+(define t0c (train-add-car t0b pc7 2))
+(define t0d (train-add-car t0c pc8 3))
+(define t0e (train-add-car t0d pc9 4)) ;tren válido
+
+(define t1a (train-remove-car t2 0))
+(define t1b (train-remove-car t2 2))
+
+;verificación de válidez en la conformación de trenes
+(train? t0) ;debe arrojar #f
+(train? t1) ;debe arrojar #t
+(train? t2) ;debe arrojar #t
+(train? t3) ;debe arrojar #t
+(train? t4) ;debe arrojar #f
+(train? t0a) ;debe arrojar #f  
+(train? t0b) ;debe arrojar #f
+(train? t0c) ;debe arrojar #f
+(train? t0d) ;debe arrojar #f
+(train? t0e) ;debe arrojar #t
+(train? t1a) ;debe arrojar #f
+(train? t1b) ;debe arrojar #t
+
+;determinar capacidad del tren
+(train-capacity t0) ;debe arrojar 0
+(train-capacity t1) ;debe arrojar 520
+
+;Creando drivers
+(define d0 (driver 0 "Victor" "BENZ"))
+(define d1 (driver 1 "Gonzalo" "Ford"))
+(define d2 (driver 2 "Roberto" "Ford"))
+(define d3 (driver 3 "Edmundo" "BENZ"))  
+
+;Creando Metros
+(define sw0 (subway 0 "Metro de Santiago"))
+(define sw1 (subway 1 "Subtel"))
+
+;Agregando trenes
+(define sw0a (subway-add-train sw0 t1 t2 t0e))
+
+;Agregando lineas
+(define sw0b (subway-add-line sw0a l4 l1f))
+
+;Agregando drivers
+(define sw0c (subway-add-driver sw0b d0 d1 d2 d3))
+
+;Expresado subway como string
+(subway->string sw0c)    
+
+;Aumentando los costos de las estaciones en un 10 unidades
+(define sw0d (subway-rise-section-cost sw0c (lambda (c) (+ c 10) ) ))
+
+;Cambiando el tiempo de parada de algunas estaciones
+(define sw0e (subway-set-station-stoptime sw0d "Los Orientales" 120))
+(define sw0f (subway-set-station-stoptime sw0e "Elisa Correa" 170))
+
+;Asignando trenes a líneas
+(define sw0g (subway-assign-train-to-line sw0f 0 4)); conductor 0 linea 4
+(define sw0h (subway-assign-train-to-line sw0g 2 1))
+
+;Asignando conductores a trenes
+(define sw0i (subway-assign-driver-to-train sw0h 0 0   "11:00:00" "Tobalaba" "Las Torres"))
+(define sw0j (subway-assign-driver-to-train sw0i 2 2 "13:22:00" "Unión Latinoamericana" "Santa Lucía"))
+
+
+
+

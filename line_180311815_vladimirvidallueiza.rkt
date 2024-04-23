@@ -34,17 +34,18 @@
        (list? (get-line-sections line))  ; Las secciones deben ser una lista.
        (not (null? (get-line-sections line)))  ; Asegura que haya al menos una sección.
        (or (line-is-circular? line)  ; La línea debe ser circular,
-           (any-station-is-type-t (get-line-sections line)))  ; o debe tener al menos una estación tipo 't'.
+           (any-station-is-type-t (get-line-sections line)))  ; o debe tener al menos una estación tipo t.
        (all-sections-valid? (get-line-sections line))))  ; Todas las secciones deben ser válidas.
 
+;; Define una función para verificar si al menos una estación en las secciones de una línea es del tipo t.
 (define (any-station-is-type-t sections)
-  (define (station-type-t? station)
-    (equal? (get-station-type station) t))
-  (ormap (lambda (section)
-           (or (station-type-t? (get-section-point1 section))
+  (define (station-type-t? station) ;; Define una función auxiliar que verifica si el tipo de una estación es t
+    (equal? (get-station-type station) t)) ;; Compara el tipo de la estación con t.
+  (ormap (lambda (section) ;; Aplica ormap para procesar cada sección y devuelve #t si alguna estación es del tipo t.
+           (or (station-type-t? (get-section-point1 section)) ;; Usa un or para verificar si alguno de los puntos de la sección es del tipo t.
                (station-type-t? (get-section-point2 section))))
          sections))
-
+;; Define una función para verificar que todas las secciones de una lista son válidas.
 (define (all-sections-valid? sections)
   (if (null? sections)
       #t
@@ -85,22 +86,13 @@
 
 ;---------------------Otras Funciones---------------------
 ; line-length: Calcula la longitud total de una línea, diferenciando entre líneas circulares y no circulares.
-; No se usa recursividad directamente
+; No se usa recursividad directamente uso de apply para hacerlo declarativo
 ; Dominio: line
 ; Recorrido: positive-number
 (define (line-length line)
   (if (line-is-circular? line)
-      (circular-line-length line)
-      (regular-line-length line)))
-
-; Funciones para calcular la longitud de líneas regulares y circulares.
-; Dominio: line
-; Recorrido: number
-(define (regular-line-length line)
-  (apply + (map get-section-distance (get-line-sections line))))
-
-(define (circular-line-length line)
-  (apply + (map get-section-distance (get-line-sections line))))
+      (apply + (map get-section-distance (get-line-sections line)))
+      (apply + (map get-section-distance (get-line-sections line)))))
 
 ; Función para verificar si una línea es circular.
 ; Verifica que la primera estación de la primera sección y la última estación de la última sección sean las mismas.
@@ -193,24 +185,22 @@
 ; Recorrido: line
 ; Recursión natural
 (define (line-add-section line section)
+  ;; Primero verifica si el argumento section es de tipo válido usando una función section? no definida aquí.
   (if (not (section? section))
+      ;; Si section no es una sección válida, lanza un error.
       (raise "Invalid section to add")
-      (list (get-line-id line)
-            (get-line-name line)
-            (get-line-rail-type line)
+      ;; Si es válida, procede a construir una nueva lista que represente la línea actualizada.
+      (list (get-line-id line)           ;; Obtiene el identificador de la línea.
+            (get-line-name line)         ;; Obtiene el nombre de la línea.
+            (get-line-rail-type line)    ;; Obtiene el tipo de riel de la línea.
+            ;; Usa una función interna add-if-not-exists para agregar la sección si no existe previamente.
             (let add-if-not-exists ((sections (get-line-sections line)))
-              (cond ((null? sections) (list section))
-                    ((equal? (car sections) section) sections)
-                    (else (cons (car sections) (add-if-not-exists (cdr sections)))))))))
+              (cond ((null? sections) (list section))    ;; Si no hay secciones, crea una lista con la nueva sección.
+                    ((equal? (first-of-list sections) section) sections) ;; Si la primera sección es igual a la nueva, no hace cambios.
+                    (else (cons (first-of-list sections)  ;; De lo contrario, conserva la primera sección y revisa el resto.
+                                (add-if-not-exists (rest-of-list sections)))))))))
 
 
 (define (crearline id name rail-type sections)
   (list id name rail-type sections))
-
-
-
-
-
-
-
 

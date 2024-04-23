@@ -33,6 +33,7 @@
 ; train?: comprueba que un listado de elementos cumpla con el formato de train
 ; Dominio: train
 ; Recorrido: boolean
+; Uso de recursion de las funciones auxiliares
 (define (train? train)
   (and (list? train)                                  ; Verifica que train sea una lista.
        (= (length train) 6)                           ; Verifica que train tenga exactamente 6 elementos.
@@ -134,12 +135,13 @@
       (and (equal? (get-pcar-type (first pcars)) ct)
            (all-central-car-types? (rest pcars)))))
 
-;------------------------------------------
+;----------------------Modificador--------------------
 
 
 ; train-add-car: Esta función inserta un carro en un tren en la posición especificada.
 ; Dominio: train (train) X pcar   (pcar) X position (positive-integer U {0})  
 ; Recorrido: train
+; Uso de recursión de Cola
 (define (train-add-car train pcar position)
   (if (< position 0)
       (raise "Posición inválida")  ; Lanza un error si la posición es menor que cero.
@@ -170,10 +172,11 @@
         (else 
          (cons (first-of-list cars) (insert-pcar (rest-of-list cars) pcar (- position 1))))))  ; De lo contrario, recursivamente inserta el carro en la posición correcta.
 
-;------------------------------------------
+;---------------------Modificador---------------------
 ; train-remove-car: Función que permite eliminar un carro desde el convoy.
 ; Dominio: train (train) X position (positive-integer U {0})
 ; Recorrido: train
+; Uso de recursión de cola
 
 (define (train-remove-car train position)
   (if (or (< position 0) (>= position (length (get-train-cars train))))

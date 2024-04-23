@@ -1,0 +1,5 @@
+Para utilizar el sistema, se debe importar en un nuevo script de Racket el script “main_180311815_vladimirvidallueoza.rkt” 
+con la función require. De esta forma, es posible utilizar todas las funciones de los requerimientos funcionales 
+para poder a empezar con la creación de un metro en versión simplificada. Primero debe crear las estaciones de metro,
+luego sus secciones. Posteriormente, la creación de una línea de metro juntando las estaciones.
+ 

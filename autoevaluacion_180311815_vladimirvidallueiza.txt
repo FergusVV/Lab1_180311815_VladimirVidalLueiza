@@ -1,0 +1,62 @@
+Autoevalucion Vladimir Vidal Lueiza 
+18031181-5
+
+0: No realizado.
+0.25: Implementación con problemas mayores (funciona 25% de las veces o no funciona)
+0.5: Implementación con funcionamiento irregular (funciona 50% de las veces)
+0.75: Implementación con problemas menores (funciona 75% de las veces)
+1: Implementación completa sin problemas (funciona 100% de las veces)
+
+Requisitos No Funcionales
+
+1.	(obligatorio) Autoevaluación      1
+2.	(obligatorio) Lenguaje            1
+3.	(obligatorio) Versión             1
+4.	(obligatorio) Standard            1
+5.	(obligatorio) No variables        1
+6.	(1 pts) Documentación             1
+7.	(obligatorio) Dom->Rec            1
+8.	(1 pts) Organización              1
+9.	(2.5 pts) Historial               1
+10.	(obligatorio) Script de pruebas   1
+11.     (obligatorio) Prerrequisitos      1
+
+Requisitos Funcionales
+1.	(0.5 pts TDAs)                                                  1
+2.      (0.1 pts) TDA station - constructor                             1
+3.	(0.1 pts) TDA section - constructor                             1
+4.	(0.3 pts) TDA line - constructor                                1
+5.	(0.1 pts) TDA line - otras funciones. line-length               1
+6.	(0.1 pts) TDA line - otras funciones line-section-length        1
+7.	(0.2 pts) TDA line - otras funciones. line-cost                 1
+8.	(0.2 pts) TDA line - otras funciones line-section-cost          1
+9.	(0.3 pts) TDA line - modificador line-add-section               1
+10.	(0.2 pts) TDA Línea - pertenencia  line?                        1
+11.	(0.1 pts) TDA pcar - Constructor                                1
+12.	(0.1 pts) TDA train - Constructor                               1
+13.	(0.3 pts) TDA train - Modificador. train-add-car                1
+14.	(0.3 pts) TDA train - Modificador. train-remove-car             1
+15.	(0.3 pts) TDA train - Pertenencia train?                        1
+16.	(0.2 pts) TDA train - Otras funciones train-capacity            1
+17.	(0.1 pts) TDA driver - Constructor                              1
+18.	(0.1 pts) TDA subway - Constructor                              1
+19.	(0.3 pts) TDA subway - Modificador subway-add-train             1
+20.	(0.3 pts) TDA subway - Modificador subway-add-line              1
+21.	(0.3 pts) TDA subway - Modificador subway-add-driver            1
+22.	(0.3 pts) TDA subway - Otras funciones subway->string           1
+23.	(0.3 pts) TDA subway - Modificador subway-rise -section-cost    1
+24.	(0.3 pts) TDA subway - Modificador subway-set-station-stoptime  1
+25.     (0.3 pts) TDA subway - Modificador subway-assign-train-to-line  1
+26.	(0.3 pts) TDA subway - Modificador subway-assign-driver-to-train 1
+27.	(0.3 pts) TDA subway - Otras funciones where-is-train           0
+28.	(0.3 pts) TDA subway - Otras funciones subway-train-path        0
+
+
+
+
+
+
+
+
+
+
